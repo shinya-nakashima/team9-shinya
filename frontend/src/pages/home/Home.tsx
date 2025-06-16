@@ -1,13 +1,11 @@
 // src/pages/Home/Home.js
+import Header from '../../components/common/header/Header';
 import './Home.css';
 
 const Home = () => {
   return (
     <div>
-      <main>
-        <h2>ようこそ</h2>
-        <p>ホームページの内容</p>
-      </main>
+      <Header />
     </div>
   );
 };
