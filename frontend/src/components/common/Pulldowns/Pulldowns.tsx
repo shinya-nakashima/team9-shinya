@@ -1,57 +1,59 @@
 // src/components/PulldownGroup.js
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Pulldowns.css';
+import { Lecture } from '../../../types/Lecture';
 
 const Pulldowns = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedArea, setSelectedArea] = useState('');
   const [selectedPrice, setSelectedPrice] = useState('');
+  const [lectures, setLectures] = useState<Lecture[]>([]);
 
-  // ダミーデータ
   const categories = [
     { value: '', label: 'カテゴリを選択' },
-    { value: 'restaurant', label: 'レストラン' },
-    { value: 'cafe', label: 'カフェ' },
-    { value: 'bar', label: 'バー' },
-    { value: 'fastfood', label: 'ファストフード' }
+    { value: 'リーダーシップ', label: 'リーダーシップ' },
+    { value: 'ビジネスマナー', label: 'ビジネスマナー' },
+    { value: '営業力', label: '営業力' }
   ];
 
   const areas = [
     { value: '', label: 'エリアを選択' },
-    { value: 'shibuya', label: '渋谷' },
-    { value: 'shinjuku', label: '新宿' },
-    { value: 'ginza', label: '銀座' },
-    { value: 'harajuku', label: '原宿' },
-    { value: 'roppongi', label: '六本木' }
+    { value: '新人研修', label: '新人研修' },
+    { value: '中堅社員', label: '中堅社員' },
+    { value: '管理職', label: '管理職' }
   ];
 
   const priceRanges = [
     { value: '', label: '価格帯を選択' },
-    { value: 'low', label: '〜1,000円' },
-    { value: 'medium', label: '1,000円〜3,000円' },
-    { value: 'high', label: '3,000円〜5,000円' },
-    { value: 'premium', label: '5,000円〜' }
+    { value: '無料', label: '無料' },
+    { value: '1万円以下', label: '1万円以下' },
+    { value: '高価格', label: '高価格' }
   ];
 
-  const handleSearch = () => {
-    console.log('検索条件:', {
-      category: selectedCategory,
-      area: selectedArea,
-      price: selectedPrice
-    });
-    // ここで検索処理を実装
+  const handleSearch = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/mainpage/api/search_by_tags/', {
+        tag1: selectedCategory,
+        tag2: selectedArea,
+        tag3: selectedPrice
+      });
+      setLectures(response.data);
+    } catch (error) {
+      console.error('検索に失敗しました:', error);
+    }
   };
 
   const handleReset = () => {
     setSelectedCategory('');
     setSelectedArea('');
     setSelectedPrice('');
+    setLectures([]);
   };
 
   return (
     <div className="pulldown-group">
       <div className="pulldown-container">
-        {/* カテゴリ選択 */}
         <div className="pulldown-item">
           <label htmlFor="category">カテゴリ</label>
           <select
@@ -68,7 +70,6 @@ const Pulldowns = () => {
           </select>
         </div>
 
-        {/* エリア選択 */}
         <div className="pulldown-item">
           <label htmlFor="area">エリア</label>
           <select
@@ -85,7 +86,6 @@ const Pulldowns = () => {
           </select>
         </div>
 
-        {/* 価格帯選択 */}
         <div className="pulldown-item">
           <label htmlFor="price">価格帯</label>
           <select
@@ -103,7 +103,6 @@ const Pulldowns = () => {
         </div>
       </div>
 
-      {/* ボタンエリア */}
       <div className="button-group">
         <button className="search-btn" onClick={handleSearch}>
           検索
@@ -113,9 +112,33 @@ const Pulldowns = () => {
         </button>
       </div>
 
-      {/* 選択状態表示（デバッグ用） */}
       <div className="selected-info">
         <p>選択中: カテゴリ={selectedCategory || '未選択'}, エリア={selectedArea || '未選択'}, 価格={selectedPrice || '未選択'}</p>
+      </div>
+
+
+      {/* 今のところは検索結果を同一コンポーネントにしていますが
+          本来はContentCardWrapperに保存します
+      */}
+      <div className="lecture-results">
+        {lectures.length > 0 ? (
+          <ul>
+            {lectures.map((lecture) => (
+              <li key={lecture.id} className="lecture-card">
+                <h3>{lecture.course_name}</h3>
+                <p>{lecture.title}</p>
+                <p>対象: {lecture.target}</p>
+                <p>形式: {lecture.format}</p>
+                <p>価格: ¥{lecture.price}</p>
+                <a href={lecture.url} target="_blank" rel="noopener noreferrer">
+                  詳細を見る
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>検索結果はありません。</p>
+        )}
       </div>
     </div>
   );

@@ -1,14 +1,15 @@
-FROM node:18-alpine
+# Dockerfile
+FROM node:20
+
+# npmアップデート（ここを追加）
+RUN npm install -g npm@latest
 
 WORKDIR /app
 
-# package.jsonをコピーして依存関係をインストール
 COPY package*.json ./
+
 RUN npm install
 
-# アプリケーションコードをコピー
 COPY . .
 
-EXPOSE 3000
-
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

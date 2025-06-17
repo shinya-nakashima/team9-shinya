@@ -15,6 +15,7 @@ def search_by_tags(request):
     tag_names = [request.data.get('tag1'), request.data.get('tag2'), request.data.get('tag3')]
 
     tags = Tag.objects.filter(name__in=tag_names)
+    print(tags)
     if tags.count() != len(tag_names):
         return Response({"error": "存在しないタグが含まれています"}, status=status.HTTP_400_BAD_REQUEST)
 
