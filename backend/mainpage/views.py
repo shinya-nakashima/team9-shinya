@@ -7,17 +7,19 @@ from rest_framework import status
 from django.db.models import Count
 from .models import Lecture, Tag
 from .serializers import LectureSerializer
-# from search_lectures_by_tags import ../services/lectures_service
+from search_lectures_by_tags import ./services/lectures_service
 
 
 @api_view(['POST'])
 def search_by_tags(request):
     tag_names = [request.data.get('tag1'), request.data.get('tag2'), request.data.get('tag3')]
 
-    tags = Tag.objects.filter(name__in=tag_names)
-    print(tags)
-    if tags.count() != len(tag_names):
-        return Response({"error": "存在しないタグが含まれています"}, status=status.HTTP_400_BAD_REQUEST)
+    tag_names = [tag for tag in tag_names if tag != '']
+
+    if tag_names:
+        tags = Tag.objects.filter(name__in=tag_names)
+        if tags.count() != len(tag_names):
+            return Response({"warning": "存在しないタグが含まれています"}, status=status.HTTP_200_OK)
 
     lectures = search_lectures_by_tags(tag_names)
     serializer = LectureSerializer(lectures, many=True)
