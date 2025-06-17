@@ -1,0 +1,150 @@
+/* src/components/SimpleBanner.css（拡張版） */
+.simple-banner {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+}
+
+.simple-banner h2 {
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.banner-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.banner-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.banner-arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.banner-arrow-left {
+  left: 20px;
+}
+
+.banner-arrow-right {
+  right: 20px;
+}
+
+/* ドットインジケーター追加 */
+.banner-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.banner-dot {
+  width: 12px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.banner-dot.active {
+  background-color: white;
+}
+
+.banner-dot:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* アニメーション効果 */
+.banner-content {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .simple-banner {
+    height: 300px;
+    font-size: 1.5rem;
+  }
+  
+  .banner-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .banner-arrow-left {
+    left: 10px;
+  }
+  
+  .banner-arrow-right {
+    right: 10px;
+  }
+  
+  .banner-dots {
+    bottom: 15px;
+  }
+  
+  .banner-dot {
+    width: 10px;
+    height: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .simple-banner {
+    height: 250px;
+    font-size: 1.2rem;
+  }
+  
+  .banner-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  
+  .banner-dots {
+    bottom: 10px;
+  }
+  
+  .banner-dot {
+    width: 8px;
+    height: 12px;
+  }
+}
