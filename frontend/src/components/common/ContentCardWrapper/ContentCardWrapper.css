@@ -1,12 +1,12 @@
 .course-card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2.7rem;
   padding: 1rem;
   border: 2px solid #ddd;
   border-radius: 0.75rem;
   background-color: #f9f9f9;
-  max-width: 1230px;
+  max-width: 1270px;
   margin: auto;
   margin-top:20px;
 }

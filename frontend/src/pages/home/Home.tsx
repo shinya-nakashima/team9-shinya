@@ -12,7 +12,7 @@ const Home = () => {
     <div>
       <Header />
       <div></div>
-      <Spinimg />
+      {/* <Spinimg /> */}
       <PickupSlider />
       <Pulldowns />
       <ContentCardWrapper />
