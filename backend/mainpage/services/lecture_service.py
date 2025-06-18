@@ -1,6 +1,16 @@
+from django.db.models import Count
+from mainpage.models import Tag, Lecture
+
 def search_lectures_by_tags(tag_names):
     tags = Tag.objects.filter(name__in=tag_names)
-    tag_ids = list(tags.values_list('id', flat=True))
-    return Lecture.objects.annotate(
-        matched_tags=Count('tags', filter=Q(tags__id__in=tag_ids), distinct=True)
-    ).filter(matched_tags=len(tag_ids))
+    if tags.count() != len(tag_names):
+        return {"error": "該当するタグが存在しません"}
+
+    lectures = Lecture.objects.all()
+    for tag in tags:
+        lectures = lectures.filter(tags=tag)  # AND 条件で絞る
+
+    if not lectures.exists():
+        return {"error": "該当する講座が見つかりません"}
+
+    return lectures
