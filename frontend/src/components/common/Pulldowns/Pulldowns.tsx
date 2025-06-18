@@ -4,7 +4,11 @@ import axios from 'axios';
 import './Pulldowns.css';
 import { Lecture } from '../../../types/Lecture';
 
-const Pulldowns = () => {
+type PulldownsProps = {
+  onSearch: (lecture: Lecture[]) => void;
+}
+
+const Pulldowns = ({onSearch}: PulldownsProps) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedArea, setSelectedArea] = useState('');
   const [selectedPrice, setSelectedPrice] = useState('');
@@ -38,7 +42,11 @@ const Pulldowns = () => {
         tag2: selectedArea,
         tag3: selectedPrice
       });
-      setLectures(response.data);
+      if (response.data.error) {
+        onSearch([]); // エラー時は空に
+      } else {
+        onSearch(response.data); // 親に検索結果を渡す
+      }
     } catch (error) {
       console.error('検索に失敗しました:', error);
     }
@@ -120,7 +128,7 @@ const Pulldowns = () => {
       {/* 今のところは検索結果を同一コンポーネントにしていますが
           本来はContentCardWrapperに保存します
       */}
-      <div className="lecture-results">
+      {/* <div className="lecture-results">
         {lectures.length > 0 ? (
           <ul>
             {lectures.map((lecture) => (
@@ -139,7 +147,7 @@ const Pulldowns = () => {
         ) : (
           <p>検索結果はありません。</p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

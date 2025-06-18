@@ -6,16 +6,22 @@ import PickupSlider from '../../components/common/PickupSlider/PickupSlider';
 import Pulldowns from '../../components/common/Pulldowns/Pulldowns';
 import Spinimg from '../../components/common/Spinimg/Spinimg';
 import './Home.css';
+import React, { useState } from 'react';
+import { Lecture } from '../../types/Lecture';
+
+
+
 
 const Home = () => {
+  const [lectures, setLectures] = useState<Lecture[]>([]);
   return (
     <div>
       <Header />
       <div></div>
       {/* <Spinimg /> */}
       <PickupSlider />
-      <Pulldowns />
-      <ContentCardWrapper />
+      <Pulldowns onSearch={setLectures} />
+      <ContentCardWrapper lectures={lectures} />
     </div>
   );
 };

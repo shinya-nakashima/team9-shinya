@@ -1,3 +1,8 @@
+export type Tag = {
+  id: number;
+  name: string;
+};
+
 export type Lecture = {
   id: number;
   title: string;
@@ -5,7 +10,10 @@ export type Lecture = {
   theme: string;
   target: string;
   format: string;
-  price: string;
+  price: number;
   image_url: string;
   url: string;
+  created_at: string; // ISO 文字列として返ってくるはず
+  updated_at: string;
+  tags: Tag[];
 };
