@@ -1,3 +1,4 @@
 # team-9
 
-kr
+frontend:React
+backend:Django
