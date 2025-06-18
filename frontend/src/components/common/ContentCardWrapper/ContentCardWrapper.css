@@ -1,13 +1,27 @@
 .course-card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 2.7rem;
-  padding: 1rem;
+  gap: 2.7rem; /* デフォルト：大きな画面 */
+  padding: 2rem;
   border: 2px solid #ddd;
   border-radius: 0.75rem;
   background-color: #f9f9f9;
   max-width: 1270px;
   margin: auto;
-  margin-top:20px;
+  margin-top: 15px;
+  width: 70%;
+  justify-content: center;
 }
 
+.course-card-wrapper .last-row {
+  justify-content: left !important; /* 左寄せになるよう強制 */
+}
+
+/* ↓ ノートPCレベルの中間サイズ */
+@media (max-width: 1524px) {
+  .course-card-wrapper {
+    gap: 1.5em;
+    padding:1rem;
+    width: calc(70% + 1.7rem); /* ← ここで1rem加算 */
+  }
+}

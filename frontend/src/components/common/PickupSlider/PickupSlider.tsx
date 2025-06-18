@@ -3,19 +3,36 @@ import "./PickupSlider.css";
 
 const items = [1, 2, 3, 4, 5, 6];
 
+const getSlideCount = (width: number) => {
+  if (width < 640) return 1;      // モバイル
+  if (width < 1024) return 2;     // タブレット
+  if (width < 1280) return 3;     // ノートPC
+  return 4;                       // デスクトップ
+};
+
 const PickupSlider: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(5);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [slidesToShow, setSlidesToShow] = useState(getSlideCount(window.innerWidth));
   const slideRef = useRef<HTMLDivElement>(null);
 
-  const cloneCount = 5;
-  const slideWidthPercent = 25;
+  const slideWidthPercent = 100 / slidesToShow;
+  const cloneCount = slidesToShow;
 
   const extendedItems = [
     ...items.slice(-cloneCount),
     ...items,
     ...items.slice(0, cloneCount),
   ];
+
+  useEffect(() => {
+    const handleResize = () => {
+      const count = getSlideCount(window.innerWidth);
+      setSlidesToShow(count);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const prev = () => {
     if (isTransitioning) {
@@ -37,10 +54,9 @@ const PickupSlider: React.FC = () => {
     slideRef.current.style.transform = `translateX(-${
       currentIndex * slideWidthPercent
     }%)`;
-  }, [currentIndex, isTransitioning]);
+  }, [currentIndex, isTransitioning, slideWidthPercent]);
 
   const handleTransitionEnd = () => {
-    if (!slideRef.current) return;
     if (currentIndex === 0) {
       setIsTransitioning(false);
       setCurrentIndex(items.length);
@@ -63,12 +79,6 @@ const PickupSlider: React.FC = () => {
 
   return (
     <div className="pickup-container">
-      {/* <h2 className="pickup-heading">
-        ピックアップ
-        <br />
-        <small style={{ fontWeight: "normal", fontSize: 12 }}>pickup</small>
-      </h2> */}
-
       <div className="pickup-slider-wrapper">
         <button
           onClick={prev}

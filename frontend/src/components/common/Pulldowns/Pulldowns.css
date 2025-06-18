@@ -1,8 +1,9 @@
 /* src/components/PulldownGroup.css */
 .pulldown-group {
-  max-width: 1200px;
+  width: 70%; /* ← 追加: 親幅の70%にすることで小さい画面でも余白が残る */
+  max-width: 1270px;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 5px;
   padding: 2rem;
   background-color: #f8f9fa;
   border-radius: 8px;

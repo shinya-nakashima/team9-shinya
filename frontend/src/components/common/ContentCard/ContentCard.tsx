@@ -33,6 +33,7 @@ const ContentCard = ({ lecture }: Props) => {
       {/* 講座名とタグ */}
       <div className="course-card__header">
         <span className="course-card__title">{course_name || title}</span>
+        {/* タグが増えて２行目行くと全体の大きさが変わるから修正しないといけない */}
         <span className="course-card__tag">
           {tags && tags.length > 0
             ? tags.map((tag) => (

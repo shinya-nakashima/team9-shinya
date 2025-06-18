@@ -43,9 +43,13 @@
   gap: 0.3rem;
   justify-content: flex-start;
   margin-top: 0.25rem;
+  height: 3.11rem;
+  max-height: 3.11rem;
+  overflow-y: overlay; /* ← スクロールバーを“上に”重ねて表示 */
 }
-
 .tag-item {
+  display: inline-flex; /* ここがポイント */
+  align-items: center; /* 中央寄せ */
   background-color: #e5e7eb;
   padding: 0.125rem 0.5rem;
   border-radius: 0.25rem;
@@ -53,6 +57,9 @@
   color: #374151;
   user-select: none;
   cursor: default;
+  white-space: nowrap; /* タグ内で改行しない */
+  height: 1.1rem; /* 適宜高さ固定 */
+  line-height: 1.5rem;
 }
 
 .course-card__info {
