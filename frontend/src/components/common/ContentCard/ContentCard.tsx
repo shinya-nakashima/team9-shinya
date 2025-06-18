@@ -35,8 +35,10 @@ const ContentCard = ({ lecture }: Props) => {
         <span className="course-card__title">{course_name || title}</span>
         <span className="course-card__tag">
           {tags && tags.length > 0
-            ? tags.map((tag) => `#${tag.name}`).join(" ")
-            : "#タグなし"}
+            ? tags.map((tag) => (
+                <span key={tag.id} className="tag-item">#{tag.name}</span>
+              ))
+            : <span className="tag-item">#タグなし</span>}
         </span>
       </div>
 
